@@ -43,3 +43,4 @@ terraform.rc
 _work/
 src/
 cleanup.sh
+.terraform.lock.hcl
