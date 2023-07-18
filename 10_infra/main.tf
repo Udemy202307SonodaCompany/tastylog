@@ -11,9 +11,9 @@ terraform {
   }
   backend "s3" {
     bucket  = "terraform-states-files-save"
-    key     = "udemy_4/tastylog-dev.tfstate"
+    key     = "udemy_4_2/tastylog-dev.tfstate"
     region  = "ap-northeast-1"
-    profile = "AWSAdministratorAccess-481657431265"
+    profile = "AWSAdminDeveloperAccess-481657431265"
   }
 }
 
@@ -21,12 +21,12 @@ terraform {
 # Provider
 # ---------------------------------------------
 provider "aws" {
-  profile = "AWSAdministratorAccess-481657431265"
+  profile = "AWSAdminDeveloperAccess-481657431265"
   region  = "ap-northeast-1"
 }
 
 provider "aws" {
   alias   = "virginia"
-  profile = "AWSAdministratorAccess-481657431265"
+  profile = "AWSAdminDeveloperAccess-481657431265"
   region  = "us-east-1"
 }
