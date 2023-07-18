@@ -50,6 +50,8 @@ jobs:
         run: |
           terraform validate -no-color
       - name: Terraform plan
+        continue-on-error: true
+        id: plan
         run: |
           terraform plan \
             -var 'project=${{ env.TF_PROJECT }}' \
@@ -59,3 +61,4 @@ jobs:
             -input=false \
             -no-color \
             -detailed-exitcode
+      - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
