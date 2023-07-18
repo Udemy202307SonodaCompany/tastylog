@@ -13,10 +13,10 @@ permissions:
   id-token: write
   contents: read
 
-  jobs:
-    preview:
-      name: Preview
-      runs-on: ubuntu-latest
-      steps:
-        - run: |
-            echo "hello world"
+jobs:
+  preview:
+    name: Preview
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "hello world"
