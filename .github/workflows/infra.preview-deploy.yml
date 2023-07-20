@@ -17,7 +17,6 @@ env:
   AWS_REGION: ap-northeast-1
   TF_VERSION: 1.4.4
   TF_PROJECT: test0717a
-  TF_ENVIRONMENT: dev
 
 defaults:
   run:
@@ -25,9 +24,30 @@ defaults:
     working-directory: "10_infra/"
 
 jobs:
+  pre-run:
+    name: Pre-Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Branch Check
+        id: branch_check
+        run: |
+          if [ "${{ github.base_ref }}" == "main" ]; then
+            echo "ENV_NAME=prod" >> $GITHUB_OUTPUT
+          elif [ "${{ github.base_ref }}" == "develop" ]; then
+            echo "ENV_NAME=dev" >> $GITHUB_OUTPUT
+          else
+            echo "ENV_NAME=${{ github.base_ref }}" >> $GITHUB_OUTPUT
+          fi
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
+
   preview:
     name: Preview
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.pre-run.outputs.env_name }}
+    env:
+      DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -55,7 +75,7 @@ jobs:
         run: |
           terraform plan \
             -var 'project=${{ env.TF_PROJECT }}' \
-            -var 'environment=${{ env.TF_ENVIRONMENT }}' \
+            -var 'environment=${{ env.DEPLOY_ENV }}' \
             -var 'username=${{ secrets.MYSQL_USERNAME }}' \
             -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
             -input=false \
