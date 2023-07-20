@@ -13,7 +13,7 @@ terraform {
     bucket  = "terraform-states-files-save"
     key     = "udemy_4_2/tastylog-dev.tfstate"
     region  = "ap-northeast-1"
-    profile = "AWSAdminDeveloperAccess-481657431265"
+    profile = "AWSInfrastructureAccess-SandboxDev"
   }
 }
 
@@ -21,12 +21,12 @@ terraform {
 # Provider
 # ---------------------------------------------
 provider "aws" {
-  profile = "AWSAdminDeveloperAccess-481657431265"
+  profile = "AWSInfrastructureAccess-SandboxDev"
   region  = "ap-northeast-1"
 }
 
 provider "aws" {
   alias   = "virginia"
-  profile = "AWSAdminDeveloperAccess-481657431265"
+  profile = "AWSInfrastructureAccess-SandboxDev"
   region  = "us-east-1"
 }
