@@ -79,6 +79,7 @@ jobs:
         run: |
           terraform validate -no-color
       - name: Terraform plan
+        working-directory: "10_infra"
         continue-on-error: true
         id: plan
         run: |
