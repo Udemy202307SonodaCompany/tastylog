@@ -18,11 +18,6 @@ env:
   TF_VERSION: 1.4.4
   TF_PROJECT: test0717a
 
-# defaults:
-#   run:
-#     shell: bash
-#     working-directory: "10_infra"
-
 jobs:
   pre-run:
     name: Pre-Run
@@ -69,15 +64,12 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Terraform init
-        # working-directory: "10_infra"
         run: |
           terraform init -no-color
       - name: Terraform validate
-        # working-directory: "10_infra"
         run: |
           terraform validate -no-color
       - name: Terraform plan
-        # working-directory: "10_infra"
         continue-on-error: true
         id: plan
         run: |
