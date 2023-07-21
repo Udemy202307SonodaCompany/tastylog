@@ -39,8 +39,10 @@ jobs:
           else
             echo "ENV_NAME=${{ github.base_ref }}" >> $GITHUB_OUTPUT
           fi
-      # - name: confirm ENV_NAME
-      #   run: echo ${{ steps.branch_check.outputs.ENV_NAME }}
+      - name: confirm base_ref
+        run: echo ${{ github.base_ref }}
+      - name: confirm ref_name
+        run: echo ${{ github.ref_name }}
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
 
