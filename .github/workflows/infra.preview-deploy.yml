@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        # shell: bash
+        shell: bash
         working-directory: "10_infra"
     environment:
       name: ${{ needs.pre-run.outputs.env_name }}
