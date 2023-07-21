@@ -26,7 +26,7 @@ env:
 jobs:
   pre-run:
     name: Pre-Run
-    runs-on: ubuntu-latestaa
+    runs-on: ubuntu-latest
     steps:
       - name: Branch Check
         id: branch_check
