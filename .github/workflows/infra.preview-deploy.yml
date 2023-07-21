@@ -20,8 +20,8 @@ env:
 
 defaults:
   run:
-    shell: bash
-    working-directory: "10_infra/"
+    # shell: bash
+    working-directory: "10_infra"
 
 jobs:
   pre-run:
@@ -52,8 +52,10 @@ jobs:
       DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
     steps:
       - name: confirm DEPLOY_ENV
+        working-directory: "./"
         run: echo ${{ env.DEPLOY_ENV }}
       - name: confirm AWS_IAM_ROLE_ARN
+        working-directory: "./"
         run: echo ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -62,6 +64,7 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
       - name: Terraform format
+        working-directory: "./"
         run: |
           terraform fmt -check
       - name: Configure AWS Credential
