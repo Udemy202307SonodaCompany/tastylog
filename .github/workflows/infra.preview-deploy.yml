@@ -39,48 +39,51 @@ jobs:
           else
             echo "ENV_NAME=${{ github.base_ref }}" >> $GITHUB_OUTPUT
           fi
+      - name: confirm ENV_NAME
+        run: |
+          echo $ENV_NAME
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
 
-  preview:
-    name: Preview
-    needs: pre-run
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ needs.pre-run.outputs.env_name }}
-    env:
-      DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Setup terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-      - name: Terraform format
-        run: |
-          terraform fmt -check
-      - name: Configure AWS Credential
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-      - name: Terraform init
-        run: |
-          terraform init -no-color
-      - name: Terraform validate
-        run: |
-          terraform validate -no-color
-      - name: Terraform plan
-        continue-on-error: true
-        id: plan
-        run: |
-          terraform plan \
-            -var 'project=${{ env.TF_PROJECT }}' \
-            -var 'environment=${{ env.DEPLOY_ENV }}' \
-            -var 'username=${{ secrets.MYSQL_USERNAME }}' \
-            -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
-            -input=false \
-            -no-color \
-            -detailed-exitcode
-      - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
+  # preview:
+  #   name: Preview
+  #   needs: pre-run
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: ${{ needs.pre-run.outputs.env_name }}
+  #   env:
+  #     DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #     - name: Setup terraform
+  #       uses: hashicorp/setup-terraform@v2
+  #       with:
+  #         terraform_version: ${{ env.TF_VERSION }}
+  #     - name: Terraform format
+  #       run: |
+  #         terraform fmt -check
+  #     - name: Configure AWS Credential
+  #       uses: aws-actions/configure-aws-credentials@v2
+  #       with:
+  #         aws-region: ${{ env.AWS_REGION }}
+  #         role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+  #     - name: Terraform init
+  #       run: |
+  #         terraform init -no-color
+  #     - name: Terraform validate
+  #       run: |
+  #         terraform validate -no-color
+  #     - name: Terraform plan
+  #       continue-on-error: true
+  #       id: plan
+  #       run: |
+  #         terraform plan \
+  #           -var 'project=${{ env.TF_PROJECT }}' \
+  #           -var 'environment=${{ env.DEPLOY_ENV }}' \
+  #           -var 'username=${{ secrets.MYSQL_USERNAME }}' \
+  #           -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
+  #           -input=false \
+  #           -no-color \
+  #           -detailed-exitcode
+  #     - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
