@@ -20,7 +20,7 @@ env:
 
 # defaults:
 #   run:
-#     # shell: bash
+#     shell: bash
 #     working-directory: "10_infra/"
 
 jobs:
@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latestaa
     steps:
       - name: Branch Check
-        # working-directory: "./"
         id: branch_check
         run: |
           if [ "${{ github.base_ref }}" == "main" ]; then
