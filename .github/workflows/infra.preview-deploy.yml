@@ -48,7 +48,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "10_infra"
+        working-directory: "./10_infra"
     environment:
       name: ${{ needs.pre-run.outputs.env_name }}
     env:
