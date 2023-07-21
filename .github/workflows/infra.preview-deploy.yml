@@ -1,14 +1,14 @@
 name: "infra preview & deploy"
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - develop
     paths:
       - 10_infra/**
       - .github/workflows/**
-  workflow_dispatch:
+  # workflow_dispatch:
 
 permissions:
   id-token: write
@@ -32,12 +32,12 @@ jobs:
       - name: Branch Check
         id: branch_check
         run: |
-          if [ "${{ github.ref_name }}" == "main" ]; then
+          if [ "${{ github.base_ref }}" == "main" ]; then
             echo "ENV_NAME=prod" >> $GITHUB_OUTPUT
-          elif [ "${{ github.ref_name }}" == "develop" ]; then
+          elif [ "${{ github.base_ref }}" == "develop" ]; then
             echo "ENV_NAME=dev" >> $GITHUB_OUTPUT
           else
-            echo "ENV_NAME=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "ENV_NAME=${{ github.base_ref }}" >> $GITHUB_OUTPUT
           fi
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
@@ -55,36 +55,36 @@ jobs:
         run: echo ${{ env.DEPLOY_ENV }}
       - name: confirm AWS_IAM_ROLE_ARN
         run: echo ${{ secrets.AWS_IAM_ROLE_ARN }}
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
-  #     - name: Setup terraform
-  #       uses: hashicorp/setup-terraform@v2
-  #       with:
-  #         terraform_version: ${{ env.TF_VERSION }}
-  #     - name: Terraform format
-  #       run: |
-  #         terraform fmt -check
-  #     - name: Configure AWS Credential
-  #       uses: aws-actions/configure-aws-credentials@v2
-  #       with:
-  #         aws-region: ${{ env.AWS_REGION }}
-  #         role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-  #     - name: Terraform init
-  #       run: |
-  #         terraform init -no-color
-  #     - name: Terraform validate
-  #       run: |
-  #         terraform validate -no-color
-  #     - name: Terraform plan
-  #       continue-on-error: true
-  #       id: plan
-  #       run: |
-  #         terraform plan \
-  #           -var 'project=${{ env.TF_PROJECT }}' \
-  #           -var 'environment=${{ env.DEPLOY_ENV }}' \
-  #           -var 'username=${{ secrets.MYSQL_USERNAME }}' \
-  #           -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
-  #           -input=false \
-  #           -no-color \
-  #           -detailed-exitcode
-  #     - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      - name: Terraform format
+        run: |
+          terraform fmt -check
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+      - name: Terraform init
+        run: |
+          terraform init -no-color
+      - name: Terraform validate
+        run: |
+          terraform validate -no-color
+      - name: Terraform plan
+        continue-on-error: true
+        id: plan
+        run: |
+          terraform plan \
+            -var 'project=${{ env.TF_PROJECT }}' \
+            -var 'environment=${{ env.DEPLOY_ENV }}' \
+            -var 'username=${{ secrets.MYSQL_USERNAME }}' \
+            -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
+            -input=false \
+            -no-color \
+            -detailed-exitcode
+      - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
