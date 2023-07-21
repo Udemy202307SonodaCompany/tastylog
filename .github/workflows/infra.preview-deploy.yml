@@ -81,4 +81,4 @@ jobs:
             -input=false \
             -no-color \
             -detailed-exitcode
-      # - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
+      - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
