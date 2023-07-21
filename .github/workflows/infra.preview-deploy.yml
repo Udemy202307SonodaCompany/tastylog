@@ -44,6 +44,7 @@ jobs:
 
   preview:
     name: Preview
+    needs: pre-run
     runs-on: ubuntu-latest
     environment:
       name: ${{ needs.pre-run.outputs.env_name }}
