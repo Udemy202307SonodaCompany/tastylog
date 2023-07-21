@@ -58,12 +58,12 @@ jobs:
         run: echo ${{ env.DEPLOY_ENV }}
       - name: confirm AWS_IAM_ROLE_ARN
         run: echo ${{ secrets.AWS_IAM_ROLE_ARN }}
-      # - name: Checkout repository
-      #   uses: actions/checkout@v3
-      # - name: Setup terraform
-      #   uses: hashicorp/setup-terraform@v2
-      #   with:
-      #     terraform_version: ${{ env.TF_VERSION }}
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
       # - name: Terraform format
       #   run: |
       #     terraform fmt -check
