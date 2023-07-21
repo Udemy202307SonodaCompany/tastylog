@@ -41,7 +41,7 @@ jobs:
           fi
       - name: confirm ENV_NAME
         run: |
-          echo $ENV_NAME
+          echo "${{ steps.branch_check.outputs.ENV_NAME }}"
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
 
