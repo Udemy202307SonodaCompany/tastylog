@@ -73,9 +73,11 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Terraform init
+        working-directory: "10_infra"
         run: |
           terraform init -no-color
       - name: Terraform validate
+        working-directory: "10_infra"
         run: |
           terraform validate -no-color
       - name: Terraform plan
