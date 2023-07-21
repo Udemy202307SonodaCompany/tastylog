@@ -45,19 +45,15 @@ jobs:
     name: Preview
     needs: pre-run
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     shell: bash
-    #     working-directory: "./10_infra"
+    defaults:
+      run:
+        # shell: bash
+        working-directory: "10_infra"
     environment:
       name: ${{ needs.pre-run.outputs.env_name }}
     env:
       DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
     steps:
-      - name: confirm DEPLOY_ENV
-        run: echo ${{ env.DEPLOY_ENV }}
-      - name: confirm AWS_IAM_ROLE_ARN
-        run: echo ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup terraform
@@ -73,15 +69,15 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Terraform init
-        working-directory: "10_infra"
+        # working-directory: "10_infra"
         run: |
           terraform init -no-color
       - name: Terraform validate
-        working-directory: "10_infra"
+        # working-directory: "10_infra"
         run: |
           terraform validate -no-color
       - name: Terraform plan
-        working-directory: "10_infra"
+        # working-directory: "10_infra"
         continue-on-error: true
         id: plan
         run: |
