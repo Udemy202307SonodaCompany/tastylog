@@ -22,7 +22,7 @@ env:
 defaults:
   run:
     shell: bash
-    working-directory: "10_infra"
+    working-directory: "./10_infra/"
 
 jobs:
   pre-run:
