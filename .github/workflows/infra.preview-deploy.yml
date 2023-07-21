@@ -39,21 +39,22 @@ jobs:
           else
             echo "ENV_NAME=${{ github.base_ref }}" >> $GITHUB_OUTPUT
           fi
-      - name: confirm ENV_NAME
-        run: |
-          echo "${{ steps.branch_check.outputs.ENV_NAME }}"
+      # - name: confirm ENV_NAME
+      #   run: echo ${{ steps.branch_check.outputs.ENV_NAME }}
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
 
-  # preview:
-  #   name: Preview
-  #   needs: pre-run
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: ${{ needs.pre-run.outputs.env_name }}
-  #   env:
-  #     DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
-  #   steps:
+  preview:
+    name: Preview
+    needs: pre-run
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.pre-run.outputs.env_name }}
+    env:
+      DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
+    steps:
+      - name: confirm ENV_NAME
+        run: echo ${{ env.TF_VERSION }}
   #     - name: Checkout repository
   #       uses: actions/checkout@v3
   #     - name: Setup terraform
