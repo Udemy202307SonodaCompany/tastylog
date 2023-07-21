@@ -78,16 +78,16 @@ jobs:
       - name: Terraform validate
         run: |
           terraform validate -no-color
-      # - name: Terraform plan
-      #   continue-on-error: true
-      #   id: plan
-      #   run: |
-      #     terraform plan \
-      #       -var 'project=${{ env.TF_PROJECT }}' \
-      #       -var 'environment=${{ env.DEPLOY_ENV }}' \
-      #       -var 'username=${{ secrets.MYSQL_USERNAME }}' \
-      #       -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
-      #       -input=false \
-      #       -no-color \
-      #       -detailed-exitcode
+      - name: Terraform plan
+        continue-on-error: true
+        id: plan
+        run: |
+          terraform plan \
+            -var 'project=${{ env.TF_PROJECT }}' \
+            -var 'environment=${{ env.DEPLOY_ENV }}' \
+            -var 'username=${{ secrets.MYSQL_USERNAME }}' \
+            -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
+            -input=false \
+            -no-color \
+            -detailed-exitcode
       # - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
