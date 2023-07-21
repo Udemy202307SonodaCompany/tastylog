@@ -53,8 +53,10 @@ jobs:
     env:
       DEPLOY_ENV: ${{ needs.pre-run.outputs.env_name }}
     steps:
-      - name: confirm ENV_NAME
-        run: echo ${{ env.TF_VERSION }}
+      - name: confirm DEPLOY_ENV
+        run: echo ${{ env.DEPLOY_ENV }}
+      - name: confirm AWS_IAM_ROLE_ARN
+        run: echo ${{ secrets.AWS_IAM_ROLE_ARN }}
   #     - name: Checkout repository
   #       uses: actions/checkout@v3
   #     - name: Setup terraform
