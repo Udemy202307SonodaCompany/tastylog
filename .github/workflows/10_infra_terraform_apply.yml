@@ -1,7 +1,7 @@
 name: "infra terraform plan & apply"
 
 on:
-  pull_request:
+  push:
     branches:
       - main
       - develop
@@ -9,13 +9,9 @@ on:
       - 10_infra/**
       - .github/workflows/10_infra_**
 
-# permissions:
-#   id-token: write
-#   contents: read
-
-# env:
-#   AWS_REGION: ap-northeast-1
-#   TF_VERSION: 1.4.4
+env:
+  AWS_REGION: ap-northeast-1
+  TF_VERSION: 1.4.4
 
 jobs:
   pre-run:
@@ -35,8 +31,8 @@ jobs:
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
 
-  terraform-plan:
-    name: Terraform-Plan
+  terraform-apply:
+    name: Terraform-Apply
     needs: pre-run
     runs-on: ubuntu-latest
     defaults:
@@ -59,9 +55,6 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
-      - name: Terraform format
-        run: |
-          terraform fmt -check
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -72,18 +65,13 @@ jobs:
           terraform init \
             -backend-config=./tfbackend/${{ env.DEPLOY_ENV }}.tfbackend \
             -no-color
-      - name: Terraform validate
+      - name: Terraform apply
+        id: apply
         run: |
-          terraform validate -no-color
-      - name: Terraform plan
-        continue-on-error: true
-        id: plan
-        run: |
-          terraform plan \
+          terraform apply \
             -var-file=./tfvars/${{ env.DEPLOY_ENV }}.tfvars \
             -var 'username=${{ secrets.MYSQL_USERNAME }}' \
             -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
             -input=false \
             -no-color \
-            -detailed-exitcode
-      - run: echo "steps.plan.outputs.exitcode=${{ steps.plan.outputs.exitcode }}"
+            -auto-approve

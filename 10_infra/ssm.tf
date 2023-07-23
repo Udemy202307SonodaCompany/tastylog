@@ -32,4 +32,3 @@ resource "aws_ssm_parameter" "password" {
   type  = "SecureString"
   value = var.password
 }
-
