@@ -33,8 +33,8 @@ resource "aws_ssm_parameter" "password" {
   value = var.password
 }
 
-resource "aws_ssm_parameter" "test" {
-  name  = "/${var.project}/${var.environment}/app/TEST"
-  type  = "String"
-  value = "test"
-}
+# resource "aws_ssm_parameter" "test" {
+#   name  = "/${var.project}/${var.environment}/app/TEST"
+#   type  = "String"
+#   value = "test"
+# }
