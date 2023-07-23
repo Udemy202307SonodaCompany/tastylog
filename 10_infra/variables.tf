@@ -1,9 +1,6 @@
-# ---------------------------------------------
-# Variables
-# ---------------------------------------------
 variable "project" {
   type    = string
-  default = "tastylog"
+  default = "test0717a"
 }
 
 variable "environment" {
@@ -11,13 +8,13 @@ variable "environment" {
   default = "dev"
 }
 
-variable "username" {
-  type      = string
-  default   = "admin"
-  sensitive = true
-}
+# variable "username" {
+#   type      = string
+#   default   = "admin"
+#   sensitive = true
+# }
 
-variable "password" {
-  type      = string
-  sensitive = true
-}
+# variable "password" {
+#   type      = string
+#   sensitive = true
+# }
