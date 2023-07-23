@@ -65,7 +65,7 @@ jobs:
       - name: Terraform init
         run: |
           terraform init \
-            -backend-config=./10_infra/tfbackend/${{ env.DEPLOY_ENV }}.tfbackend \
+            -backend-config=./tfbackend/${{ env.DEPLOY_ENV }}.tfbackend \
             -no-color
       - name: Terraform validate
         run: |
