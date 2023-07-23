@@ -1,0 +1,3 @@
+bucket  = "terraform-states-files-save"
+key     = "udemy_4_2/tastylog-dev.tfstate"
+region  = "ap-northeast-1"

@@ -1,0 +1,4 @@
+project     = "test0717a"
+environment = "dev"
+username    = "admin"
+password    = "password"

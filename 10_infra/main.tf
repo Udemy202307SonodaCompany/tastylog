@@ -10,10 +10,12 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "terraform-states-files-save"
-    key     = "udemy_4_2/tastylog-dev.tfstate"
-    region  = "ap-northeast-1"
+    encrypt = true
     profile = "AWSInfrastructureAccess-SandboxDev"
+    # profile = "AWSInfrastructureAccess-SandboxProd"
+    # bucket = "terraform-states-files-save"
+    # key    = "udemy_4_2/tastylog-dev.tfstate"
+    # region = "ap-northeast-1"
   }
 }
 
@@ -22,11 +24,13 @@ terraform {
 # ---------------------------------------------
 provider "aws" {
   profile = "AWSInfrastructureAccess-SandboxDev"
-  region  = "ap-northeast-1"
+  # profile = "AWSInfrastructureAccess-SandboxProd"
+  region = "ap-northeast-1"
 }
 
 provider "aws" {
   alias   = "virginia"
   profile = "AWSInfrastructureAccess-SandboxDev"
-  region  = "us-east-1"
+  # profile = "AWSInfrastructureAccess-SandboxProd"
+  region = "us-east-1"
 }

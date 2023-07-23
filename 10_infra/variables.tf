@@ -1,9 +1,6 @@
-# ---------------------------------------------
-# Variables
-# ---------------------------------------------
 variable "project" {
   type    = string
-  default = "tastylog"
+  default = "test0717a"
 }
 
 variable "environment" {

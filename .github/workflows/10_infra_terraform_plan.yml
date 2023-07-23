@@ -1,4 +1,4 @@
-name: "infra preview & deploy"
+name: "infra terraform plan & apply"
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - develop
     paths:
       - 10_infra/**
-      - .github/workflows/**
+      - .github/workflows/10_infra_**
 
 permissions:
   id-token: write
@@ -16,7 +16,6 @@ permissions:
 env:
   AWS_REGION: ap-northeast-1
   TF_VERSION: 1.4.4
-  TF_PROJECT: test0717a
 
 jobs:
   pre-run:
@@ -36,8 +35,8 @@ jobs:
     outputs:
       env_name: ${{ steps.branch_check.outputs.ENV_NAME }}
 
-  preview:
-    name: Preview
+  terraform-plan:
+    name: Terraform-Plan
     needs: pre-run
     runs-on: ubuntu-latest
     defaults:
@@ -65,7 +64,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Terraform init
         run: |
-          terraform init -no-color
+          terraform init \
+            -backend-config=./tfbackend/${{ env.DEPLOY_ENV }}.tfbackend \
+            -no-color
       - name: Terraform validate
         run: |
           terraform validate -no-color
@@ -74,8 +75,7 @@ jobs:
         id: plan
         run: |
           terraform plan \
-            -var 'project=${{ env.TF_PROJECT }}' \
-            -var 'environment=${{ env.DEPLOY_ENV }}' \
+            -var-file=./tfvars/${{ env.DEPLOY_ENV }}.tfvars \
             -var 'username=${{ secrets.MYSQL_USERNAME }}' \
             -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
             -input=false \
