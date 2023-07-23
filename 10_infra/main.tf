@@ -11,7 +11,7 @@ terraform {
   }
   backend "s3" {
     encrypt = true
-    profile = "AWSInfrastructureAccess-SandboxDev"
+    # profile = "AWSInfrastructureAccess-SandboxDev"
     # profile = "AWSInfrastructureAccess-SandboxProd"
   }
 }
@@ -20,14 +20,14 @@ terraform {
 # Provider
 # ---------------------------------------------
 provider "aws" {
-  profile = "AWSInfrastructureAccess-SandboxDev"
-  # profile = "AWSInfrastructureAccess-SandboxProd"
   region = "ap-northeast-1"
+  # profile = "AWSInfrastructureAccess-SandboxDev"
+  # profile = "AWSInfrastructureAccess-SandboxProd"
 }
 
 provider "aws" {
-  alias   = "virginia"
-  profile = "AWSInfrastructureAccess-SandboxDev"
-  # profile = "AWSInfrastructureAccess-SandboxProd"
+  alias  = "virginia"
   region = "us-east-1"
+  # profile = "AWSInfrastructureAccess-SandboxDev"
+  # profile = "AWSInfrastructureAccess-SandboxProd"
 }
