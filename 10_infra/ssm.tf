@@ -32,3 +32,9 @@ resource "aws_ssm_parameter" "password" {
   type  = "SecureString"
   value = var.password
 }
+
+resource "aws_ssm_parameter" "test" {
+  name  = "/${var.project}/${var.environment}/app/TEST"
+  type  = "String"
+  value = "test"
+}
