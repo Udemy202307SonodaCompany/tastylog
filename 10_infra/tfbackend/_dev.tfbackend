@@ -1,3 +1,0 @@
-bucket  = "dsonoda-sandbox-dev-tfstate"
-key     = "test0717a.tfstate"
-region  = "ap-northeast-1"
