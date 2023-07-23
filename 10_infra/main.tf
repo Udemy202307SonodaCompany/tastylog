@@ -13,9 +13,6 @@ terraform {
     encrypt = true
     profile = "AWSInfrastructureAccess-SandboxDev"
     # profile = "AWSInfrastructureAccess-SandboxProd"
-    # bucket = "terraform-states-files-save"
-    # key    = "udemy_4_2/tastylog-dev.tfstate"
-    # region = "ap-northeast-1"
   }
 }
 
