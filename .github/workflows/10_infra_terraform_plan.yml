@@ -65,7 +65,7 @@ jobs:
       - name: Terraform init
         run: |
           terraform init \
-            -backend-config=./tfbackend/${{ env.DEPLOY_ENV }}.tfbackend \
+            -backend-config=./10_infra/tfbackend/${{ env.DEPLOY_ENV }}.tfbackend \
             -no-color
       - name: Terraform validate
         run: |
@@ -75,7 +75,7 @@ jobs:
         id: plan
         run: |
           terraform plan \
-            -var-file=./tfvars/${{ env.DEPLOY_ENV }}.tfvars \
+            -var-file=./10_infra/tfvars/${{ env.DEPLOY_ENV }}.tfvars \
             -var 'username=${{ secrets.MYSQL_USERNAME }}' \
             -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
             -input=false \
