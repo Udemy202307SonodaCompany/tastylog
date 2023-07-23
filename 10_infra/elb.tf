@@ -36,6 +36,25 @@ resource "aws_lb_listener" "front_http" {
   }
 }
 
+resource "aws_lb_listener" "front_http2" {
+  load_balancer_arn = aws_lb.front.arn
+  protocol          = "HTTP"
+  port              = 81
+
+  default_action {
+    type = "redirect"
+    redirect {
+      port        = 81
+      protocol    = "HTTP"
+      status_code = "HTTP_301"
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [default_action]
+  }
+}
+
 
 # ---------------------------------------------
 # Target Group

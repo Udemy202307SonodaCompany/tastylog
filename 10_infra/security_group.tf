@@ -23,6 +23,15 @@ resource "aws_security_group_rule" "web_in_http" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "web_in_http2" {
+  security_group_id = aws_security_group.web_sg.id
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 81
+  to_port           = 81
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "web_in_https" {
   security_group_id = aws_security_group.web_sg.id
   type              = "ingress"
